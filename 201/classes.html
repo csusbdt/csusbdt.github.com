@@ -1,0 +1,167 @@
+<html>
+
+<head>
+	<link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+
+<body>
+<div id="content">
+
+<h1>Lab: Classes</h1>
+
+<h2>Learning Objectives</h2>
+
+<ul>
+<li>Learn how to implement classes (user defined data types).</li>
+<li>Understand the concept of encapsulation (hiding internal details to make usage of a class more obvious).</li>
+<li>Understand how to implement and use accessor and mutator functions.</li>
+<li>Understand how to implement constructors.</li>
+<li>Understand how to overload member functions.</li>
+<li>Learn how to break the source code for a program into separate files (compilation units).</li>
+<li>Learn how to solve programming problems with classes.</li>
+</ul>
+
+<h2>Exercise 1: A number class (20 points)</h2>
+
+<p>
+Develop a class called <code>Number</code> 
+that represents an integer value.
+The class should have a constructor 
+that takes the integer value as its only argument.
+The constructor should store this value in a private member variable.
+</p>
+
+<p>
+Define a public member function 
+called <code>isPrime</code> that takes no argument and returns a bool.
+If the number is a prime number, 
+then <code>isPrime</code> returns true, otherwise it returns false.
+</p>
+
+<p>
+Define another member function called <code>isDivisibleBy</code> 
+that takes a single integer argument and returns a bool.
+If the integer passed into <code>isDivisibleBy</code> is a divisor for the number, 
+then the function returns true, otherwise it returns false.
+</p>
+
+<p>
+Test your implementation of the Number class using the following test code.
+</p>
+
+<pre>
+#include &lt;iostream>
+#include &lt;cassert>
+#include "Number.h"
+
+using namespace std;
+
+int main(int argc, char * argv[])
+{
+    Number nine(9);
+    assert(!nine.isPrime());
+    assert( nine.isDivisibleBy(1));
+    assert(!nine.isDivisibleBy(2));
+    assert( nine.isDivisibleBy(3));
+    assert(!nine.isDivisibleBy(8));
+    assert( nine.isDivisibleBy(9));
+
+    Number seven(7);
+    assert( seven.isPrime());
+    assert( seven.isDivisibleBy(1));
+    assert(!seven.isDivisibleBy(2));
+    assert(!seven.isDivisibleBy(3));
+    assert( seven.isDivisibleBy(7));
+
+    Number seventySeven(77);
+    assert(!seventySeven.isPrime());
+
+    Number seventyThree(73);
+    assert(seventyThree.isPrime());
+
+    Number twentySeven(27);
+    assert(!twentySeven.isPrime());
+    assert(!twentySeven.isDivisibleBy(2));
+    assert(twentySeven.isDivisibleBy(3));
+    assert(twentySeven.isDivisibleBy(9));
+
+    cout &lt;&lt; "All tests passed.\n";
+    cin.get();  // Use if debugging program in Visual Studio.
+}
+</pre>
+
+<p>
+Your solution to this exercise should contain the following three files.
+</p>
+
+<dl>
+<dt>ex1.cpp<dt>     <dd>contains the test code given above</dd>
+<dt>Number.h</dt>   <dd>contains the <code>Number</code> class declaration</dd>
+<dt>Number.cpp</dt> <dd>contains the implementation of the constructor and <code>isPrime</code></dd>
+</dl>
+
+<p>
+Include a UML class diagram within a multi-line comment in <em>Number.h</em>.
+</p>
+
+<h2>Exercise 2: Listing prime numbers with the number class (20 points)</h2>
+
+<p>
+Write a program that prompts the user to enter a number larger than 2.
+The program should use the Number class you developed in exercise 1 to
+determine the prime numbers between 2 and the number entered,
+and display them in the console window.
+</p>
+
+<p>
+This is a problem you did in a previous lab.
+However, this time you will make use of your Number class in the solution.
+</p>
+
+<h2>Exercise 3: An Egg Carton Class (20 points)</h2>
+
+<p>
+Provide an implementation of the egg carton class described bellow.
+Develop test code that tests your implementation.
+</p>
+
+<pre>
++----------------------------------------------------------------+
+|                                                                |
+|                           EggCarton                            |
+|                                                                |
++----------------------------------------------------------------+
+|                                                                |
+| - brownEggs : int                                              |
+| - whiteEggs : int                                              |
+|                                                                |
++----------------------------------------------------------------+
+|                                                                |
+| + EggCarton(brownEggs : int, whiteEggs : int)                  |
+| + addBrownEggs(n : int) : bool                                 |
+| + addWhiteEggs(n : int) : bool                                 |
+| + getTotalEggs() : int                                         |
+|                                                                |
++----------------------------------------------------------------+
+</pre>
+
+<p class="figure">Figure 1</p>
+
+<p>
+The UML class diagram for the EggCarton class is shown in Figure 1.
+Instances of this class represent egg cartons that can hold up to 12 eggs. 
+The class provides functions to add white and brown eggs. 
+All of the functions that modify the number of eggs in the carton return false 
+if the operation can not be done exactly as requested. 
+For example, if there are 3 white eggs and 0 brown eggs, 
+then addBrownEggs(10) returns false and the number of white eggs 
+remains at 3 and brown eggs at 0. 
+There is a member function called getTotalEggs, 
+which returns the total number of white and brown eggs together. 
+For example, if the carton has 1 brown and 2 white eggs, then getTotalEggs returns 3.
+</p>
+
+</div>
+</body>
+</html>
+

@@ -1,0 +1,268 @@
+<html>
+
+<head>
+	<link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+
+<body>
+<div id="content">
+
+<h1>Lab: The Command Line</h1>
+
+<h2>Learning Objectives</h2>
+
+<ul>
+<li>Learn how to work from the Linux command line.</li>
+<li>Learn a simple approach to compile and run console programs written in C++.</li>
+</ul>
+
+<h2>Preparation</h2>
+
+<p>
+There are several different environments that you can work in to complete
+the assignments in this course.  These environments are described as follows.
+</p>
+
+<h3>1) On a Lab Machine</h3>
+
+<p>
+The lab rooms (JB 358 nd 359) contain computers that are running the Linux operating system.
+You can simply log into one of these computers and work in the lab.
+</p>
+
+<p>
+To use these computers,  
+The lab instructor will give you a username and password
+or will explain how to get one. 
+You can also log into computers in JB 358 with the same username and password.
+</p>
+
+<h3>2) On a Lab Machine but Remotely</h3>
+
+<p>
+You can also work on a lab computer from a remote computer.
+You have 2 choices for working on a lab machine remotely. 
+</p>
+
+<ul>
+<li><a href="ssh.html">How to work remotely using SSH</a> (Gives access to cconsole interface only.)</li>
+<li><a href="http://cse.csusb.edu/labs/#how-to-access-the-lab-computers-remotely">How to use SSH X11 Forwarding</a> (Gives access to GUI interface.)</li>
+</ul>
+
+<h3>3) In a Cloud9 Workspace</h3>
+
+<p>
+You can work in a <a href="c9.io">Cloud9</a> workspace,
+which you access through a website.
+</p>
+
+<p>
+This is the first time for me to use this in this course,
+so this is experimental.  However, I believe it to be an excellent choice
+and hope to standardize on this in future quarters.
+The following instructions explain what you need to do in case you want to try this.
+</p>
+
+<ul>
+<li>Create a free Cloud9 account.</li>
+<li>Create a Cloud9 workspace named cse201 using the C/C++ project type.</li>
+<li>Share your cse201 workspace with the teaching assistant and me.</li>
+</ul>
+
+<h3>4) In OS X</h3>
+
+<p>
+You can easily use a Mac to do the assingments in this course.
+However, you will need to install Xcode to have access to a C++ compiler.
+You can get XCode for free from the App Store.
+</p>
+
+<p>
+On a Mac, I recommend that you use work from the command line 
+in the way that I demonstrate in lecture
+rather than using the graphical user interface of XCode.
+However, it is good to learn the XCode graphical interface, 
+so you have the time and interest,
+I encourage you to do this.
+</p>
+
+<h3>5) In Linux</h3>
+
+<p>
+If you have access to a computer that runs the Linux operating system,
+you will need to install the GNU C++ compiler if not already installed.
+Try the following command to find out.
+</p>
+
+<pre>
+c++ -v
+</pre>
+
+<p>
+If the above command is not found,
+then you need to install the GNU C++ compiler.
+How you do this depends on your system.
+If you have a GUI-based package manager,
+you can use that.
+If your system uses <code>yum</code>, then run the following.
+</p>
+
+<pre>
+yum install gcc-c++
+</pre>
+
+<p>
+If your system uses <code>apt-get</code>, then run the following.
+</p>
+
+<pre>
+apt-get install gcc-c++
+</pre>
+
+<p>
+There are also other possible ways
+to install the Gnu C++ compiler,
+which are not covered here.
+</p>
+
+<h3>6) In Windows</h3>
+
+<p>
+Doing the work in this course on a Windows computer is more complicated than
+the other options.  If you do not want to learn Visual Studio or other integrated development environment (IDE),
+then I recommend you either 1) work on the lab computers,
+2) access a lab computer from Windows using SSH, or 3) use Cloud9 as described above.
+</p>
+
+<p>
+To do the assignments in this course directly on a Windows computer
+you need to install an IDE.
+There are several free alternatives.
+One alternative is to use the student edition of Visual Studio
+called Visual Studio Express (for desktop development).
+Another alternative is to use an open source development system
+such as CodeBlocks or other system.
+</p>
+
+<h2>Learn the Command Line Interface</h2>
+
+<p>
+Complete the interactive 
+<a href="https://www.codecademy.com/en/courses/learn-the-command-line">Codecademy command line tutorial</a>.
+You will need to create a free account with Codecademy for this purpose.
+</p>
+
+<p>
+One helpful feature of the terminal window
+is called <em>command completion</em>.
+If you press tab in the command line, the system will try to complete
+what you are typing by looking for a matching filename.
+</p>
+
+<p>
+Another helpful feature is called <em>command history</em>.
+This feature allows you to access a record of commands that you previously entered.
+Use the up and down arrow keys to scroll through the command history.
+Press enter at any previously entered command to run it again.
+</p>
+
+<h2>Learn How to Use a Text Editor</h2>
+
+<p>
+Practice creating files with one of the
+text editors available on your system.
+</p>
+
+<p>
+If you are working directly on a lab computer (not through SSH), 
+then you can run programs that create windows, 
+such as the text-editor called <em>gedit</em>. 
+However, if you are working on a lab computer remotely (through SSH),
+then you can not run programs that create windows, 
+because the ssh program only gives you a text-based interface to the remote system.
+In this case, you need to use a text editor
+that runs inside a console window,
+such as <em>vi</em> or <em>nano</em>.
+</p>
+
+<p class="callout">
+A program that creates a window is said to have a graphical user interface (GUI).
+In the early days of computers, GUIs did not exist,
+so all interaction with the computer was through
+character-based interfaces.
+</p>
+
+<p>
+<em>Nano</em> is easier to understand than <em>vi</em>,
+but <em>vi</em> is the traditional text editor that comes pre-installed
+on practically all UNIX-like operating systems.
+For this reason, <em>vi</em> is an important tool for system administrators.
+</p>
+
+<h2>Experience Working with C++</h2>
+
+<p>
+This section explains how to write, compile 
+and run a simple C++ console program
+from the Linux command line.
+When the program runs, it prints <em>hello</em>.
+</p>
+
+<p>
+Create a file named <em>hello.cpp</em>
+with the following contents.
+</p>
+
+<pre>
+#include &lt;iostream>
+
+using namespace std;
+
+int main(int argc, char * args[]) {
+    cout &lt;&lt; "hello\n";
+}
+</pre>
+
+<p>
+From a terminal window, run the following command 
+to compile <em>hello.cpp</em>.
+</p>
+
+<pre>
+c++ hello.cpp
+</pre>
+
+<p>
+The above command generates an executable file named <em>a.out</em>.
+To run this file, issue the following from the command line.
+</p>
+
+<pre>
+./a.out
+</pre>
+
+<p>
+Modify the source code in <em>hello.cpp</em> 
+so that it displays <em>Hello, Alice.</em>
+Test that your changes produce an executable
+file that runs as expected.
+</p>
+
+<h2>Submit Your Work</h2>
+
+<p>
+To complete this lab, send an email to the teaching assistant
+that includes a link to your Codecademy profile. 
+CC me on this email.  In general, 
+when you send emails to the teaching assistant, you should always CC me.
+</p>
+
+<p>
+For full credit on this assignment, your profile 
+should list <i>Learn the Command Line</i> as a completed skill.
+</p>
+
+</div>
+</body>
+</html>
+

@@ -1,0 +1,119 @@
+<html>
+
+<head>
+	<link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+
+<body>
+<div id="content">
+
+<h1>Lab: Functions</h1>
+
+<h2>Learning Objectives</h2>
+
+<ul>
+<li>Learn how to implement and call functions.</li>
+<li>Understand what is meant by the term side effect.</li>
+<li>Learn about reference parameters.</li>
+<li>Understand the concept of scope.</li>
+<li>Learn how to use stepwise refinement to solve programming problems.</li>
+<li>Understand how to use pseudocode.</li>
+<li>Learn how to understand code by performing walkthroughs.</li>
+<li>Understand the concept of precondition and how to enforce them with the assert statement.</li>
+<li>Understand how to test programs, including the concepts of unit testing, boundary cases and test coverage.</li>
+<li>Understand how to use a debugger to find logic errors.</li>
+</ul>
+
+<h2>Exercise 1: Detecting prime numbers with functions (10 points)</h2>
+
+<p>
+Implement a function that takes an integer value 
+and returns true if the integer is a prime number and false otherwise.
+The function should have the following signature.
+</p>
+
+<pre>
+bool is_prime(int n)
+</pre>
+
+<p>
+Use an assert statement inside the function 
+to check the precondition that n is greater than one.
+</p>
+
+<p>
+Include the function in a console program 
+that calls the <code>is_prime</code> function 
+with a range of values that test several common cases 
+as well as the boundary cases.
+Use an assert statement for each test case.
+For example, the following tests that the function returns false for the value 100.
+</p>
+
+<pre>
+assert(!is_prime(100));
+</pre>
+
+<p>
+You need to include the cassert header in your code in order to use the assert function.
+</p>
+
+<pre>
+#include &lt;cassert>
+</pre>
+
+<h2>Exercise 2: Listing prime numbers with functions (10 points)</h2>
+
+<p>
+In the previous lab, you wrote a console application that computes and displays all the prime numbers inclusively between 2 and a number entered by the user.  Write a program that has the same inputs and outputs as this previous exercise, but this time use the is_prime function you developed in the previous problem to simplify your code.  Specifically, replace the inner loop by a call to is_prime so that your new program uses a single loop inside the main function rather than a loop nested within another loop.
+</p>
+
+<h2>Exercise 3: Listing random colors with functions (10 points)</h2>
+
+<p>
+Re-organize the code in your solution to Listing random colors problem of the previous lab so that generation of a random color string is performed in a function.  Use functions to remove any nested loops (loops within loops) that are in your code.
+</p>
+
+<h2>Exercise 4: Generate a web page (10 points)</h2>
+
+<p>
+Write a program that generates a web page that contains a list of 100 random RGB color values.
+The program should write something like the following into cout.
+</p>
+
+<pre>
+&lt;html>
+  &lt;head>
+    &lt;title>Assignment 1 Exercise 2&lt;/title>
+  &lt;/head>
+  &lt;body>
+    &lt;ol>
+        &lt;li style="color: #324AF3">324AF3&lt;/li>
+        &lt;li style="color: #6A3125">6A3125&lt;/li>
+
+         ... 98 additional list items here ...
+
+    &lt;/ol>
+  &lt;/body>
+&lt;/html>
+</pre>
+
+<p>
+Organize your code using functions.
+</p>
+
+<p>
+The following shows how to save the output of your program
+to a file named colors.html.
+After doing this, open the file in a web browser
+to see the result.
+</p>
+
+<pre>
+./a.out > colors.html
+</pre>
+
+</div>
+</body>
+</html>
+
