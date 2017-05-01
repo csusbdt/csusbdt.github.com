@@ -24,7 +24,7 @@ senior project or masters project, do the following.
 
 ## Other
 
-* [Curriculum Vitae](cv.html)
+* [Curriculum Vitae](http://cse.csusb.edu/turner/cv.html)
 * [Lacuna Reaver](http://cse.csusb.edu/lr/)
 * [Vector Force](http://marketplace.xbox.com/en-US/Product/VectorForce/66acd000-77fe-1000-9115-d80258550304)
 * [Java Web Programming with Eclipse](http://cse.csusb.edu/turner/java_web_programming/)
