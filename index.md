@@ -10,6 +10,7 @@ title = "David Turner"
 ## Courses
 
 * [Introduction to Computer Science I (CSE 201), Spring, 2017](https://github.com/csusbdt/201-2017-spring/wiki/)
+* [Introduction to Computer Science II (CSE 202), Spring, 2017](https://github.com/csusbdt/csusbdt.github.com/wiki/CSE-202)
 
 ## How to Schedule a Presentation
 
