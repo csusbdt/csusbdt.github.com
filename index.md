@@ -3,10 +3,32 @@ layout: default
 title = "David Turner"
 ---
 
+# David Turner 
+
+[School of Computer Science and Engineering](https://cns.csusb.edu/cse)
+
 ## Courses
 
 * [Introduction to Computer Science I (CSE 201), Spring, 2017](https://github.com/csusbdt/201-2017-spring/wiki/)
 
+## How to Schedule a Presentation
+
+To schedule a presentation for independent study, internship, 
+senior project or masters project, do the following.
+
+1. Decide on a time and day with your advisor.
+1. Talk to Monica Latimer to schedule a room.  
+1. Use a presentation template (see below) to create an announcement.
+1. Have your adviser approve the announcement.
+1. Ask your advisor to email your approved announcement to Monica Latimer.
+
+## Other
+
+* [Curriculum Vitae](cv.html)
+* [Lacuna Reaver](http://cse.csusb.edu/lr/)
+* [Vector Force](http://marketplace.xbox.com/en-US/Product/VectorForce/66acd000-77fe-1000-9115-d80258550304)
+* [Java Web Programming with Eclipse](http://cse.csusb.edu/turner/java_web_programming/)
+* [Github page](https://github.com/csusbdt/)
 
 <!--
 ## Master's Projects
@@ -22,16 +44,9 @@ title = "David Turner"
     <h2>Other</h2>
 
     <ul>
-      <li><a href="cv.html">Curriculum Vitae</a></li>
-      <li><a href="http://cse.csusb.edu/lr/">Lacuna Reaver</a></li>
-      <li><a href="http://marketplace.xbox.com/en-US/Product/VectorForce/66acd000-77fe-1000-9115-d80258550304">Vector Force</a></li>
-      <li><a href="http://cse.csusb.edu/turner/java_web_programming/">Java Web Programming with Eclipse</a></li>
-      <li><a href="https://github.com/csusbdt/">Github page</a></li>
       <li><a href="http://sites.google.com/site/csusbdt/home">Some old courses</a></li>
       <li><a href="pubs/">Publications</a></li>
-      <li><a href="https://docs.google.com/document/d/1LSjD-uXrr_dQCFKdBrItXiqfiRWfVl9FcKRFdhoZN9I/pub">How to schedule a presentation</a></li>
     </ul>
-
 
       </section>
     </div>
