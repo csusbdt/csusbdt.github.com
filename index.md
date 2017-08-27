@@ -9,8 +9,8 @@ title = "David Turner"
 
 ## Courses
 
-* [Introduction to Computer Science I (CSE 201), Spring, 2017](https://github.com/csusbdt/201-2017-spring/wiki/)
-* [Introduction to Computer Science II (CSE 202), Spring, 2017](https://github.com/csusbdt/csusbdt.github.com/wiki/CSE-202)
+* [Introduction to Computer Science I (CSE 201), Fall, 2017](https://github.com/csusbdt/201-2017-fall/wiki/)
+* [Introduction to Computer Science II (CSE 202), Fall, 2017](https://github.com/csusbdt/202-2017-fall/wiki/)
 
 ## How to Schedule a Presentation
 
@@ -26,10 +26,10 @@ senior project or masters project, do the following.
 ## Other
 
 * [Curriculum Vitae](http://cse.csusb.edu/turner/cv.html)
-* [Lacuna Reaver](http://cse.csusb.edu/lr/)
-* [Vector Force](http://marketplace.xbox.com/en-US/Product/VectorForce/66acd000-77fe-1000-9115-d80258550304)
 * [Java Web Programming with Eclipse](http://cse.csusb.edu/turner/java_web_programming/)
 * [Github page](https://github.com/csusbdt/)
+* [Lacuna Reaver](http://cse.csusb.edu/lr/)
+* [Vector Force](http://marketplace.xbox.com/en-US/Product/VectorForce/66acd000-77fe-1000-9115-d80258550304)
 
 <!--
 ## Master's Projects
