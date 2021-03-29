@@ -16,7 +16,7 @@ p {
 }
 </style>
 
-<h2 id='start'>click anywhere to start</h2>
+<h2 id='start'>click anywhere</h2>
 
 <div id='text'>
 
@@ -31,11 +31,11 @@ Lasted changed: March 26, 2021
 </div>
 
 <script>
-	function start() {
-		document.getElementById('start').style.display = 'none';
-		document.getElementById('text').style.display = 'block';
+(function() {
+	let ctx = null;
 
-		const ctx = new (window.AudioContext || window.webkitAudioContext)();
+	function start() {
+		ctx = new (window.AudioContext || window.webkitAudioContext)();
 
 		const phi = 1.6180339887;
 
@@ -135,17 +135,17 @@ Lasted changed: March 26, 2021
 		p4.start();
 	}
 
-	const options = { capture: true, once: true };
-	let mouse = null;
-	let touch = null;
-	mouse = document.addEventListener('mousedown' , () => {
-		document.removeEventListener(touch, options);
-		start();
-	}, options);
-	touch = document.addEventListener('touchstart', () => {
-		document.removeEventListener(mouse, options);
-		start();
-	}, options);
-
+	document.addEventListener('mousedown', () => {
+		if (ctx === null) {
+			start();
+			document.getElementById('start').style.display = 'none';
+			document.getElementById('text').style.display = 'block';
+		} else if (ctx.state === 'running') {
+			ctx.suspend();
+		} else {
+			ctx.resume();
+		}
+	});
+})();
 </script>
 
