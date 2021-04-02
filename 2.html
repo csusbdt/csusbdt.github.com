@@ -4,7 +4,7 @@ body {
 	color: #DDDDDD; 
 	margin: 2em;
 }
-div {
+#text {
 	display: none;
 	max-width: 20em;
 	font-size: 2em;
@@ -19,22 +19,19 @@ p {
 <h2 id='start'>click anywhere to start</h2>
 
 <div id='text'>
-<p>
-Composition 2
-</p>
-
-<p>
-Lasted changed: March 27, 2021
-</p>
+	<p>
+	Composition 2
+	</p>
+	<p>
+	Lasted changed: March 27, 2021
+	</p>
 </div>
 
 <script>
 (function() {
 	let ctx = null;
 
-	function start() {
-		ctx = new (window.AudioContext || window.webkitAudioContext)();
-
+	function start_audio() {
 		const phi = 1.6180339887;
 
 		const w = ctx.createGain();
@@ -172,16 +169,58 @@ Lasted changed: March 27, 2021
 		}, 660);
 	}
 
-	document.addEventListener('mousedown', () => {
-		if (ctx === null) {
-			start();
-			document.getElementById('start').style.display = 'none';
-			document.getElementById('text').style.display = 'block';
-		} else if (ctx.state === 'running') {
-			ctx.suspend();
-		} else {
-			ctx.resume();
+	function start() {
+		function toggle() {
+			if (ctx.state === 'running') {
+				ctx.suspend();
+			} else {
+				ctx.resume();
+			}
 		}
-	});
+		document.getElementById('start').style.display = 'none';
+		document.getElementById('text').style.display = 'block';
+		ctx = new (window.AudioContext || window.webkitAudioContext)();
+		function resume() {
+			setTimeout(() => {
+				ctx.resume();
+				if (ctx.state === 'running') {
+					start_audio();
+					const options = { capture: true, passive: false, once: false };
+					document.body.addEventListener('mousedown', e => {
+						toggle();
+						e.preventDefault();
+						e.stopPropagation();
+						document.body.removeEventListener('touchstart', options);
+					}, options);
+					document.body.addEventListener('touchstart', e => {
+						toggle();
+						e.preventDefault();
+						e.stopPropagation();
+						document.body.removeEventListener('mousedown', options);
+					}, options);
+				} else {
+					return resume();
+				}
+			}, 10);
+		}
+		resume();
+	}
+
+	const options = { capture: true, passive: false, once: true };
+
+	document.body.addEventListener('mousedown', e => {
+		start();
+		e.preventDefault();
+		e.stopPropagation();
+		document.body.removeEventListener('touchstart', options);
+	}, options);
+
+	document.body.addEventListener('touchstart', e => {
+		start();
+		e.preventDefault();
+		e.stopPropagation();
+		document.body.removeEventListener('mousedown', options);
+	}, options);
+
 })();
 </script>
