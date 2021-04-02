@@ -7,6 +7,7 @@
 body, html {
 	height: 100%;
 	background-color: #000;
+	overflow: hidden;
 }
 #canvas {
 	position: absolute;
@@ -18,8 +19,10 @@ body, html {
 <canvas id='canvas'></canvas>
 
 <script>
-	window.addEventListener('load', () => {
+	window.addEventListener('load', function() {
 		const canvas = document.querySelector('#canvas');
+
+		const phi = 1.6180339887;
 
 		let a1 = null;
 		let a2 = null;
@@ -43,10 +46,21 @@ body, html {
 		var ctx = canvas.getContext('2d');
 		let audio_context = null;
 
+		//const freq = 1 / 60 / 11;
+		const freq = 60 * 11;
+
 		function random_color() {
-			const a = Math.sin(elapsed_time * 2 * Math.PI * d1.frequency.value);
-			const n = Math.floor(a * Math.random() * Math.floor(0xFFFFFF));
-			return "#" + n.toString(16).padStart(6, '0');
+			const u = (Math.sin(elapsed_time * 2 * Math.PI * freq) + 1) / 2;
+			const c = Math.floor(Math.pow(u, 3) * 0xFFFFFF);
+			return "#" + c.toString(16).padStart(6, '0');
+		}
+
+		function random_coord() {
+			const r = .5 * Math.pow(Math.random(), 3) * Math.hypot(canvas.width, canvas.height);
+			const a = Math.random() * 2 * Math.PI;
+			const x = .5 * canvas.width + r * Math.cos(a);
+			const y = .5 * canvas.height + r * Math.sin(a);
+			return [Math.floor(x), Math.floor(y)];
 		}
 
 		function adjust_canvas() {
@@ -63,14 +77,12 @@ body, html {
 				let dt = current_time - previous_time;
 				previous_time = current_time;
 				elapsed_time += dt;
-				const num = Math.floor(canvas.width / 100);
+				const num = Math.floor(canvas.width / 10);
 				for (let i = 0; i < num; ++i) {
 					ctx.beginPath();
 					ctx.fillStyle = random_color();
-					ctx.fillRect(
-						Math.floor(Math.random() * canvas.width), 
-						Math.floor(Math.random() * canvas.height), 
-						1, 1);
+					const coord = random_coord();
+					ctx.fillRect(coord[0], coord[1], 1, 1);
 					ctx.fill();
 				}
 			}
@@ -81,8 +93,6 @@ body, html {
 		}
 
 		function start_audio() {
-			const phi = 1.6180339887;
-
 			const w = audio_context.createGain();
 			w.gain.value = 0;
 			w.gain.setTargetAtTime(1, audio_context.currentTime, 1);
