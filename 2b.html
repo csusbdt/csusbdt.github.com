@@ -46,8 +46,8 @@ body, html {
 		var ctx = canvas.getContext('2d');
 		let audio_context = null;
 
-		//const freq = 1 / 60 / 11;
-		const freq = 60 * 11;
+		const freq = 1 / 60 / 11;
+		//const freq = 60 * 11;
 
 		function random_color() {
 			const u = (Math.sin(elapsed_time * 2 * Math.PI * freq) + 1) / 2;
@@ -56,7 +56,7 @@ body, html {
 		}
 
 		function random_coord() {
-			const r = .5 * Math.pow(Math.random(), 3) * Math.hypot(canvas.width, canvas.height);
+			const r = .5 * Math.pow(Math.random(), 2.2) * Math.hypot(canvas.width, canvas.height);
 			const a = Math.random() * 2 * Math.PI;
 			const x = .5 * canvas.width + r * Math.cos(a);
 			const y = .5 * canvas.height + r * Math.sin(a);
