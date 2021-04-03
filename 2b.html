@@ -47,16 +47,47 @@ body, html {
 		let audio_context = null;
 
 		const freq = 1 / 60 / 11;
-		//const freq = 60 * 11;
+
+		const p1 = 60;
+		const p2 = p1 * phi;
+		const p3 = p2 * phi;
 
 		function random_color() {
-			const u = (Math.sin(elapsed_time * 2 * Math.PI * freq) + 1) / 2;
-			const c = Math.floor(Math.pow(u, 3) * 0xFFFFFF);
-			return "#" + c.toString(16).padStart(6, '0');
+			let red   = (elapsed_time - p1 * Math.trunc(elapsed_time / p1)) / p1;
+			let green = (elapsed_time - p2 * Math.trunc(elapsed_time / p2)) / p2;
+			let blue  = (elapsed_time - p3 * Math.trunc(elapsed_time / p3)) / p3;
+			
+			if (red > .5) red = 1 - red;
+			red *= 2;
+
+			if (green > .5) green = 1 - green;
+			green *= 2;
+
+			if (blue > .5) blue = 1 - blue;
+			blue *= 2;
+
+			const s = "#" 
+			+ Math.floor(red * 256).toString(16).padStart(2, '0')
+			+ Math.floor(green * 256).toString(16).padStart(2, '0')
+			+ Math.floor(blue * 256).toString(16).padStart(2, '0');
+
+			return s;
+
+//			let u = elapsed_time % period;
+
+			// let u = elapsed_time - Math.floor(elapsed_time / period) * period;
+
+			// if (u > .5) u = 1 - u;
+			// u *= 2;
+
+//			const u = (Math.sin(elapsed_time * 2 * Math.PI * freq) + 1) / 2;
+//			const c = Math.floor(Math.pow(u, 3) * 0xFFFFFF);
+//			const c = Math.floor(u * 0xFFFFFF);
+//			return "#" + c.toString(16).padStart(6, '0');
 		}
 
 		function random_coord() {
-			const r = .5 * Math.pow(Math.random(), 2.2) * Math.hypot(canvas.width, canvas.height);
+			const r = .5 * Math.pow(Math.random(), 2) * Math.hypot(canvas.width, canvas.height);
 			const a = Math.random() * 2 * Math.PI;
 			const x = .5 * canvas.width + r * Math.cos(a);
 			const y = .5 * canvas.height + r * Math.sin(a);
@@ -77,7 +108,7 @@ body, html {
 				let dt = current_time - previous_time;
 				previous_time = current_time;
 				elapsed_time += dt;
-				const num = Math.floor(canvas.width / 10);
+				const num = Math.floor(canvas.width / 45);
 				for (let i = 0; i < num; ++i) {
 					ctx.beginPath();
 					ctx.fillStyle = random_color();
