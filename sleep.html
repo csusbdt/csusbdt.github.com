@@ -1,0 +1,155 @@
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <style>
+    #content {
+      margin: 5vw;
+    }
+    #g_play {
+      width: 100%;
+      font-size: 4vw;
+      padding: 2vw;
+    }
+  </style>
+</head>
+<body>
+<div id='content'>
+  <button id='g_play'>start</button>
+  
+</div>
+<script type="module">
+const phi = 1.6180339887;
+let audio = null;
+let w     = null;
+
+const init = () => {
+  audio = new (window.AudioContext || window.webkitAudioContext)();
+  w = audio.createGain();
+  w.gain.value = 0;
+  w.connect(audio.destination);
+
+	const w1 = audio.createGain();
+	const w2 = audio.createGain();
+	const w3 = audio.createGain();
+	const w4 = audio.createGain();
+
+	w1.gain.value = 1;
+	w2.gain.value = .8;
+	w3.gain.value = .4;
+	w4.gain.value = .1;
+
+	w1.connect(w);
+	w2.connect(w);
+	w3.connect(w);
+	w4.connect(w);
+
+	const o1 = audio.createOscillator();
+	const o2 = audio.createOscillator();
+	const o3 = audio.createOscillator();
+	const o4 = audio.createOscillator();
+	o1.frequency.value = 80;
+	o2.frequency.value = o1.frequency.value * phi;
+	o3.frequency.value = o2.frequency.value * phi;
+	o4.frequency.value = o3.frequency.value * phi;
+
+	const a1 = audio.createOscillator();
+	const a2 = audio.createOscillator();
+	const a3 = audio.createOscillator();
+	const a4 = audio.createOscillator();
+	a1.frequency.value = 3;
+	a2.frequency.value = 4;
+	a3.frequency.value = 5;
+	a4.frequency.value = 6;
+
+	const p1 = audio.createOscillator();
+	const p2 = audio.createOscillator();
+	const p3 = audio.createOscillator();
+	const p4 = audio.createOscillator();
+	p4.frequency.value = 1 / 10;
+	p3.frequency.value = p4.frequency.value / phi;
+	p2.frequency.value = p3.frequency.value / phi;
+	p1.frequency.value = p2.frequency.value / phi;
+
+	const oa1 = audio.createGain();
+	const oa2 = audio.createGain();
+	const oa3 = audio.createGain();
+	const oa4 = audio.createGain();
+
+	const oap1 = audio.createGain();
+	const oap2 = audio.createGain();
+	const oap3 = audio.createGain();
+	const oap4 = audio.createGain();
+
+	o1.connect(oa1);
+	o2.connect(oa2);
+	o3.connect(oa3);
+	o4.connect(oa4);
+
+	a1.connect(oa1.gain);
+	a2.connect(oa2.gain);
+	a3.connect(oa3.gain);
+	a4.connect(oa4.gain);
+
+	oa1.connect(oap1);
+	oa2.connect(oap2);
+	oa3.connect(oap3);
+	oa4.connect(oap4);
+
+	p1.connect(oap1.gain);
+	p2.connect(oap2.gain);
+	p3.connect(oap3.gain);
+	p4.connect(oap4.gain);
+
+	oap1.connect(w1);
+	oap2.connect(w2);
+	oap3.connect(w3);
+	oap4.connect(w4);
+
+	o1.start();
+	o2.start();
+	o3.start();
+	o4.start();
+	a1.start();
+	a2.start();
+	a3.start();
+	a4.start();
+	p1.start();
+	p2.start();
+	p3.start();
+	p4.start();
+
+  audio.suspend();
+
+  g_play.innerHTML = "play";
+};
+
+let timeout = null;
+
+g_play.addEventListener('click', _ => {
+  if (audio === null) {
+    init();
+  } else if (g_play.innerHTML === 'play') {
+    audio.resume();
+    w.gain.setTargetAtTime(1, audio.currentTime, .1);
+    g_play.innerHTML = 'pause';
+  } else if (g_play.innerHTML === 'pause') {
+    if (timeout) return;
+    w.gain.setTargetAtTime(0, audio.currentTime, .1);
+    timeout = setTimeout(() => {
+      audio.suspend();
+      g_play.innerHTML = 'resume';
+      timeout = null;
+    }, 300);
+  } else if (g_play.innerHTML === 'resume') {
+    if (timeout) return;
+    w.gain.setTargetAtTime(1, audio.currentTime, .1);
+    timeout = setTimeout(() => {
+      audio.resume();
+      g_play.innerHTML = 'pause';
+      timeout = null;
+    }, 300);
+  }
+});
+</script>
+</body>
+</html>
