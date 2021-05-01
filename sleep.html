@@ -1,32 +1,78 @@
 <html>
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <style>
-    #content {
-      margin: 5vw;
-    }
-    #g_play {
-      width: 100%;
-      font-size: 4vw;
-      padding: 2vw;
-    }
-  </style>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<style>
+		body {
+			padding: 0;
+			margin: 0;
+		}
+		#g_content_div {
+			display: block;
+			margin: 5vmin;
+			text-align: center;
+		}
+		button {
+			width: 100%;
+			font-size: 4vmin;
+			padding: 2vmin;
+		}
+		input {
+			width: 20%;
+			margin-top: 2vmin;
+			margin-bottom: 2vmin;
+			font-size: 2vmin;
+		}
+		#g_go_black {
+			margin-top: 2vmin;
+		}
+		#g_black_div {
+			display: none;
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			background-color: black;
+		}
+	</style>
 </head>
 <body>
-<div id='content'>
-  <button id='g_play'>start</button>
-  
+<div id='g_content_div'>
+		<button id='g_play'>start</button><br>
+		f: <input id='g_f'/> <br>
+		a: <input id='g_a'/> <br>
+		p: <input id='g_p'/> <br>
+		<button id='g_change'>change</button><br>
+		<button id='g_go_black'>go black</button>
 </div>
+<div id='g_black_div'></div>
 <script type="module">
 const phi = 1.6180339887;
 let audio = null;
 let w     = null;
 
+let o1 = null;
+let o2 = null;
+let o3 = null;
+let o4 = null;
+
+let a1 = null;
+let a2 = null;
+let a3 = null;
+let a4 = null;
+
+let p1 = null;
+let p2 = null;
+let p3 = null;
+let p4 = null;
+
+let f = 80;
+let a = 3;
+let p = 10;
+
 const init = () => {
-  audio = new (window.AudioContext || window.webkitAudioContext)();
-  w = audio.createGain();
-  w.gain.value = 0;
-  w.connect(audio.destination);
+	audio = new (window.AudioContext || window.webkitAudioContext)();
+	w = audio.createGain();
+	w.gain.value = 0;
+	w.connect(audio.destination);
 
 	const w1 = audio.createGain();
 	const w2 = audio.createGain();
@@ -43,29 +89,35 @@ const init = () => {
 	w3.connect(w);
 	w4.connect(w);
 
-	const o1 = audio.createOscillator();
-	const o2 = audio.createOscillator();
-	const o3 = audio.createOscillator();
-	const o4 = audio.createOscillator();
-	o1.frequency.value = 80;
+	o1 = audio.createOscillator();
+	o2 = audio.createOscillator();
+	o3 = audio.createOscillator();
+	o4 = audio.createOscillator();
+
+	g_f.value = f;
+	o1.frequency.value = g_f.value;
 	o2.frequency.value = o1.frequency.value * phi;
 	o3.frequency.value = o2.frequency.value * phi;
 	o4.frequency.value = o3.frequency.value * phi;
 
-	const a1 = audio.createOscillator();
-	const a2 = audio.createOscillator();
-	const a3 = audio.createOscillator();
-	const a4 = audio.createOscillator();
-	a1.frequency.value = 3;
-	a2.frequency.value = 4;
-	a3.frequency.value = 5;
-	a4.frequency.value = 6;
+	a1 = audio.createOscillator();
+	a2 = audio.createOscillator();
+	a3 = audio.createOscillator();
+	a4 = audio.createOscillator();
 
-	const p1 = audio.createOscillator();
-	const p2 = audio.createOscillator();
-	const p3 = audio.createOscillator();
-	const p4 = audio.createOscillator();
-	p4.frequency.value = 1 / 10;
+	g_a.value = a;
+	a1.frequency.value = g_a.value;
+	a2.frequency.value = a1.frequency.value + 1;
+	a3.frequency.value = a2.frequency.value + 1;
+	a4.frequency.value = a3.frequency.value + 1;
+
+	p1 = audio.createOscillator();
+	p2 = audio.createOscillator();
+	p3 = audio.createOscillator();
+	p4 = audio.createOscillator();
+
+	g_p.value = p;
+	p4.frequency.value = 1 / g_p.value;
 	p3.frequency.value = p4.frequency.value / phi;
 	p2.frequency.value = p3.frequency.value / phi;
 	p1.frequency.value = p2.frequency.value / phi;
@@ -118,37 +170,113 @@ const init = () => {
 	p3.start();
 	p4.start();
 
-  audio.suspend();
+	audio.suspend();
 
-  g_play.innerHTML = "play";
+	g_play.innerHTML = "play";
 };
 
 let timeout = null;
 
 g_play.addEventListener('click', _ => {
-  if (audio === null) {
-    init();
-  } else if (g_play.innerHTML === 'play') {
-    audio.resume();
-    w.gain.setTargetAtTime(1, audio.currentTime, .1);
-    g_play.innerHTML = 'pause';
-  } else if (g_play.innerHTML === 'pause') {
-    if (timeout) return;
-    w.gain.setTargetAtTime(0, audio.currentTime, .1);
-    timeout = setTimeout(() => {
-      audio.suspend();
-      g_play.innerHTML = 'resume';
-      timeout = null;
-    }, 300);
-  } else if (g_play.innerHTML === 'resume') {
-    if (timeout) return;
-    w.gain.setTargetAtTime(1, audio.currentTime, .1);
-    timeout = setTimeout(() => {
-      audio.resume();
-      g_play.innerHTML = 'pause';
-      timeout = null;
-    }, 300);
-  }
+	if (audio === null) {
+		init();
+		g_f.style.backgroundColor = 'lightgreen';
+		g_a.style.backgroundColor = 'lightgreen';
+		g_p.style.backgroundColor = 'lightgreen';
+	} else if (g_play.innerHTML === 'play') {
+		audio.resume();
+		w.gain.setTargetAtTime(1, audio.currentTime, .1);
+		g_play.innerHTML = 'pause';
+	} else if (g_play.innerHTML === 'pause') {
+		if (timeout) return;
+		w.gain.setTargetAtTime(0, audio.currentTime, .1);
+		timeout = setTimeout(() => {
+			audio.suspend();
+			g_play.innerHTML = 'resume';
+			timeout = null;
+		}, 300);
+	} else if (g_play.innerHTML === 'resume') {
+		if (timeout) return;
+		w.gain.setTargetAtTime(1, audio.currentTime, .1);
+		timeout = setTimeout(() => {
+			audio.resume();
+			g_play.innerHTML = 'pause';
+			timeout = null;
+		}, 300);
+	}
+});
+
+g_f.addEventListener('input', _ => {
+	if (g_f.value !== f) {
+		g_f.style.backgroundColor = 'pink';
+	} else {
+		g_f.style.backgroundColor = 'lightgreen';
+	}
+	f = g_f.value;
+});
+
+g_a.addEventListener('input', _ => {
+	if (g_a.value !== a) {
+		g_a.style.backgroundColor = 'pink';
+	} else {
+		g_a.style.backgroundColor = 'lightgreen';
+	}
+	a = g_a.value;
+});
+
+g_p.addEventListener('input', _ => {
+	if (g_p.value !== p) {
+		g_p.style.backgroundColor = 'pink';
+	} else {
+		g_p.style.backgroundColor = 'lightgreen';
+	}
+	p = g_p.value;
+});
+
+g_change.addEventListener('click', _ => {
+	const o_f1 = f;
+	const o_f2 = o_f1 * phi;
+	const o_f3 = o_f2 * phi;
+	const o_f4 = o_f3 * phi;
+
+	o1.frequency.setTargetAtTime(o_f1, audio.currentTime, .1);
+	o2.frequency.setTargetAtTime(o_f2, audio.currentTime, .1);
+	o3.frequency.setTargetAtTime(o_f3, audio.currentTime, .1);
+	o4.frequency.setTargetAtTime(o_f4, audio.currentTime, .1);
+
+	const a_f1 = a;
+	const a_f2 = a_f1 * 4 / 3;
+	const a_f3 = a_f2 * 4 / 3;
+	const a_f4 = a_f3 * 4 / 3;
+
+	a1.frequency.setTargetAtTime(a_f1, audio.currentTime, .1);
+	a2.frequency.setTargetAtTime(a_f2, audio.currentTime, .1);
+	a3.frequency.setTargetAtTime(a_f3, audio.currentTime, .1);
+	a4.frequency.setTargetAtTime(a_f4, audio.currentTime, .1);
+
+	const p_f1 = 1 / p;
+	const p_f2 = p_f1 + 1;
+	const p_f3 = p_f2 + 1;
+	const p_f4 = p_f3 + 1;
+
+	p1.frequency.setTargetAtTime(p_f1, audio.currentTime, .1);
+	p2.frequency.setTargetAtTime(p_f2, audio.currentTime, .1);
+	p3.frequency.setTargetAtTime(p_f3, audio.currentTime, .1);
+	p4.frequency.setTargetAtTime(p_f4, audio.currentTime, .1);
+
+	g_f.style.backgroundColor = 'lightgreen';
+	g_a.style.backgroundColor = 'lightgreen';
+	g_p.style.backgroundColor = 'lightgreen';
+});
+
+g_go_black.addEventListener('click', _ => {
+	g_content_div.style.display = 'none';
+	g_black_div.style.display = 'block';
+});
+
+g_black_div.addEventListener('click', _ => {
+	g_content_div.style.display = 'block';
+	g_black_div.style.display = 'none';
 });
 </script>
 </body>
