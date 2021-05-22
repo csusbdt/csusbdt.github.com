@@ -58,12 +58,10 @@ body {
 	</div>
 	<div class='container' id='g_about_container'>
 		<div>
-			WARNING binaural beats; use only with headphones.
+			This sound composition uses binaural beats; <br>
+			<b>use only with headphones</b>.
 			<br><br>
 			Facilitates sleep, meditation and out-of-body states.
-			<br><br>
-			Merge with the electrical grid and other 60 Hz systems
-			to leave this reality and visit other worlds.
 		</div>
 	</div>
 <script type="module">
@@ -71,11 +69,13 @@ let seconds = 0;
 let seconds_interval = null;
 
 const timer_on = () => {
+	return;
 	if (seconds_interval !== null) throw new Error();
 	seconds_interval = setInterval(() => console.log(++seconds), 1000);
 };
 
 const timer_off = () => {
+	return;
 	if (seconds_interval === null) throw new Error();
 	clearInterval(seconds_interval);
 	seconds_interval = null;
@@ -161,7 +161,7 @@ const root = (...o) => {
 // }
 
 const main_test = () => {
-//	timer_on();
+	timer_on();
 	root_gain = audio.createGain();
 	root_gain.connect(audio.destination);
 	root_gain.gain.value = 0;
@@ -191,27 +191,6 @@ const main_test = () => {
 	};
 	b2f();
 	setInterval(b2f, p2 * 1000);
-
-
-
-	// root_gain.connect(audio.destination);
-	// root_gain.gain.value = 0;
-	// root_gain.gain.setTargetAtTime(1, audio.currentTime, 0.1);
-
-
-
-//	delay(3).then(() => root_gain.gain.setTargetAtTime(1, audio.currentTime, 0.1));
-
-	// once(3, () => {
-	// 	root_gain.gain.setTargetAtTime(1, audio.currentTime, 0.1);
-	// });
-
-//	root_gain.gain.setTargetAtTime(1, audio.currentTime, 3);
-//	frequency(120).connect(root_gain);
-
-	// root(
-	// 	gain(period(10, 0), 5, frequency(120, 0))
-	// );
 };
 
 const main_electrical = () => {
@@ -315,7 +294,7 @@ g_playing_pause_button.addEventListener('click', _ => {
 		g_playing_container.style.display = 'none'; 
 		g_paused_container.style.display = 'flex'; 
 		timeout = null;
-//		timer_off();
+		timer_off();
 	}, 300);
 });
 g_playing_black_button.addEventListener('click', _ => { 
@@ -337,7 +316,7 @@ g_paused_resume_button.addEventListener('click', _ => {
 		g_paused_container.style.display = 'none'; 
 		g_playing_container.style.display = 'flex'; 
 		timeout = null;
-//		timer_on();
+		timer_on();
 	}, 300);
 });
 g_black_container.addEventListener('click', _ => { 
