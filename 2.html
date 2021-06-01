@@ -36,7 +36,7 @@ p {
 
 		const w = ctx.createGain();
 		w.gain.value = 0;
-		w.gain.setTargetAtTime(1, ctx.currentTime, 1);
+		w.gain.setTargetAtTime(.1, ctx.currentTime, 1);
 		w.connect(ctx.destination);
 
 		const w1 = ctx.createGain();

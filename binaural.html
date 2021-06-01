@@ -151,8 +151,10 @@ const gain = (value, ...inputs) => {
 	return n;
 };
 
+const root_gain_value = .1;
+
 const root = (...o) => {
-	root_gain = gain(1, ...o);
+	root_gain = gain(root_gain_value, ...o);
 	root_gain.connect(audio.destination);
 };
 
@@ -165,7 +167,7 @@ const main_test = () => {
 	root_gain = audio.createGain();
 	root_gain.connect(audio.destination);
 	root_gain.gain.value = 0;
-	root_gain.gain.setTargetAtTime(1, audio.currentTime, 0.1);
+	root_gain.gain.setTargetAtTime(root_gain_value, audio.currentTime, 0.1);
 
 	const f    = 60;
 	const beat = 3;

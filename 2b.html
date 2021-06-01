@@ -126,7 +126,7 @@ body, html {
 		function start_audio() {
 			const w = audio_context.createGain();
 			w.gain.value = 0;
-			w.gain.setTargetAtTime(1, audio_context.currentTime, 1);
+			w.gain.setTargetAtTime(.1, audio_context.currentTime, 1);
 			w.connect(audio_context.destination);
 
 			const w1 = audio_context.createGain();

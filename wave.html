@@ -100,7 +100,7 @@ let o1 = null;
 let a1 = null;
 let p1 = null;
 
-let v = 100;
+let v = 10;
 let f = 80;
 let a = 3;
 let p = 10;
@@ -174,7 +174,7 @@ g_play.addEventListener('click', _ => {
 		}, 300);
 	} else if (g_play.innerHTML === 'resume') {
 		if (timeout) return;
-		w.gain.setTargetAtTime(1, audio.currentTime, .1);
+		w.gain.setTargetAtTime(v / 100, audio.currentTime, .1);
 		timeout = setTimeout(() => {
 			audio.resume();
 			g_play.innerHTML = 'pause';
