@@ -169,30 +169,45 @@ const main_test = () => {
 	root_gain.gain.value = 0;
 	root_gain.gain.setTargetAtTime(root_gain_value, audio.currentTime, 0.1);
 
-	const f    = 60;
-	const beat = 3;
-	const p1   = 60 * phi;
-	const p2   = 3 * p1;
+	const f1 = 60;
+	const b1 = 3;
+	const p1 = 60;
+	const f2 = phi * f1;
+	const b2 = phi * 3;
+	const p2 = phi * 60;
+	const f3 = (f1 + phi * phi * f2) / 2;
+	const b3 = (b1 + phi * phi * b2) / 2;
+	const p3 = (p1 + phi * phi * p2) / 2;
 
-	const b1 = gain(period(p1), binaural(f, f + beat));
-	b1.gain.value = 1;
-	b1.connect(root_gain);
-	const b1f = () => {
-		b1.gain.setTargetAtTime(0, audio.currentTime         , .15 * p2);
-		b1.gain.setTargetAtTime(1, audio.currentTime + p2 / 2, .15 * p2);
+	const g1 = gain(period(p1), binaural(f1, f1 + b1));
+	g1.gain.value = 1;
+	g1.connect(root_gain);
+	const g1f = () => {
+		g1.gain.setTargetAtTime(0, audio.currentTime         , .15 * p1);
+		g1.gain.setTargetAtTime(1, audio.currentTime + p1 / 2, .15 * p1);
 	};
-	b1f();
-	setInterval(b1f, p2 * 1000);
+	g1f();
+	setInterval(g1f, p1 * 1000);
 
-	const b2 = gain(period(p1 * phi), binaural(f * phi, f * phi + beat * phi));
-	b2.gain.value = 0;
-	b2.connect(root_gain);
-	const b2f = () => {
-		b2.gain.setTargetAtTime(1, audio.currentTime         , .15 * p2 / phi);
-		b2.gain.setTargetAtTime(0, audio.currentTime + p2 / 2, .15 * p2 / phi);
+	const g2 = gain(period(p2), binaural(f2, f2 + b2));
+	g2.gain.value = 1;
+	g2.connect(root_gain);
+	const g2f = () => {
+		g2.gain.setTargetAtTime(0, audio.currentTime         , .15 * p2);
+		g2.gain.setTargetAtTime(1, audio.currentTime + p2 / 2, .15 * p2);
 	};
-	b2f();
-	setInterval(b2f, p2 * 1000);
+	g2f();
+	setInterval(g2f, p2 * 1000);
+
+	const g3 = gain(period(p3), binaural(f3, f3 + b3));
+	g3.gain.value = 1;
+	g3.connect(root_gain);
+	const g3f = () => {
+		g3.gain.setTargetAtTime(0, audio.currentTime         , .15 * p3);
+		g3.gain.setTargetAtTime(1, audio.currentTime + p3 / 2, .15 * p3);
+	};
+	g3f();
+	setInterval(g3f, p3 * 1000);
 };
 
 const main_electrical = () => {
