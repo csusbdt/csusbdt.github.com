@@ -34,6 +34,9 @@
 			margin: 0;
 			background-color: black;
 		}
+		#g_change {
+			display: none;
+		}
 	</style>
 </head>
 <body>
@@ -180,6 +183,7 @@ const init = () => {
 let timeout = null;
 
 g_play.addEventListener('click', _ => {
+	g_change.style.display = 'block';
 	if (audio === null) {
 		init();
 		g_f.style.backgroundColor = 'lightgreen';

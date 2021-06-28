@@ -31,10 +31,6 @@ const goto = function(url) {
 	return () => window.location.href = url;
 };
 
-const go_home = function() {
-	window.location.href = "../../";
-};
-
 function stop_start(o) {
 	o.stop_set.forEach(o => o.stop());
 	o.start_set.forEach(o => {
@@ -504,8 +500,6 @@ export default {
 	fullscreen_enabled: fullscreen_enabled,
 	request_fullscreen: request_fullscreen,
 	goto: goto,
-	go_home: go_home,
-//	stop_start: stop_start,
 	sound: sound,
 	circle: circle,
 	rect: rect,

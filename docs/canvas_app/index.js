@@ -18,11 +18,12 @@ const preferred_color_loop = g.loop(g.frames([i_preferred_color]));
 const red_loop             = g.loop(g.frames([i_red]));
 const blue_loop            = g.loop(g.frames([i_blue]));
 const red_blue_loop        = g.loop(g.frames([i_red, i_blue], 1 / 2), 11);
+const back_loop            = g.loop(g.frames([i_back]));
 
 const opening_hi_once = g.once(g.frames([i_hi_1, i_hi_2, i_hi_3, i_hi_4]), 11);
 const closing_hi_once = g.once(g.frames([i_hi_4, i_hi_3, i_hi_2, i_hi_1]), 11);
+const back_once       = g.once(g.frames([i_back_1, i_back_2, i_back_3]), 11);
 
-const back_touch     = g.touch([g.circle(1109, 138, 140)]);
 const test_1_touch   = g.touch([g.rect(74, 263, 474, 463)]);
 const test_2_touch   = g.touch([g.rect(74, 263, 474, 463)], dx_2, dy_2);
 const open_hi_touch  = g.touch([g.circle(800, 330, 32)]);
@@ -30,6 +31,7 @@ const close_hi_touch = g.touch([g.rect(0, 0, 1280, 720)]);
 const red_touch      = g.touch([g.circle(134, 588, 30)]);
 const blue_touch     = g.touch([g.circle(212, 588, 30)]);
 const clear_touch    = g.touch([g.rect(262, 566, 311, 601)]);
+const back_touch     = g.touch([g.circle(1109, 138, 140)]);
 
 const start_touches = () => {
 	back_touch.start();
@@ -55,6 +57,7 @@ open_hi_touch.stops(hi_closed_loop).starts(opening_hi_once, blop_sound);
 close_hi_touch.stops(hi_opened_loop).starts(closing_hi_once, thud_sound);
 opening_hi_once.starts(hi_opened_loop, close_hi_touch);
 closing_hi_once.starts(hi_closed_loop, start_touches);
+back_once.starts(g.goto('../'));
 
 const set_red     = () => localStorage.setItem('preferred_color', 'red');
 const set_blue    = () => localStorage.setItem('preferred_color', 'blue');
@@ -63,6 +66,7 @@ const clear_color = () => localStorage.removeItem('preferred_color');
 red_touch.stops(red_blue_loop, blue_loop).starts(set_red, red_loop, start_touches, tick_sound);
 blue_touch.stops(red_blue_loop, red_loop).starts(set_blue, blue_loop, start_touches, tick_sound);
 clear_touch.stops(red_loop, blue_loop).starts(clear_color, red_blue_loop, start_touches, click_sound);
+back_touch.stops(back_loop).starts(back_once, blop_sound);
 
 window.addEventListener('load', e => {
 	const preferred_color = localStorage.getItem('preferred_color');
@@ -77,5 +81,6 @@ window.addEventListener('load', e => {
 	test_2_loop.start();
 	hi_closed_loop.start();
 	preferred_color_loop.start();
+	back_loop.start();
 	start_touches();
 });
