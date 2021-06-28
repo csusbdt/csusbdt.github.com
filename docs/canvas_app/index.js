@@ -4,8 +4,8 @@ document.title = "canvas example";
 
 const blop_sound  = g.sound(s_blop);
 const click_sound = g.sound(s_click);
-const thud_sound = g.sound(s_thud);
-const tick_sound = g.sound(s_tick);
+const thud_sound  = g.sound(s_thud);
+const tick_sound  = g.sound(s_tick);
 
 const dx_2 = 560;
 const dy_2 = 200;
@@ -51,8 +51,8 @@ const start_touches = () => {
 	}
 };
 
-test_1_touch.starts(click_sound, g.delay(.5).starts(g.goto('levels/test_1/')));
-test_2_touch.starts(click_sound, g.delay(.5).starts(g.goto('levels/test_2/')));
+test_1_touch.starts(click_sound, g.delay(.5).starts(g.goto('test_1/')));
+test_2_touch.starts(click_sound, g.delay(.5).starts(g.goto('test_2/')));
 open_hi_touch.stops(hi_closed_loop).starts(opening_hi_once, blop_sound);
 close_hi_touch.stops(hi_opened_loop).starts(closing_hi_once, thud_sound);
 opening_hi_once.starts(hi_opened_loop, close_hi_touch);
