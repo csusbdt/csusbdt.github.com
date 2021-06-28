@@ -28,7 +28,7 @@ const request_fullscreen = function() {
 };
 
 const goto = function(url) {
-	return () => window.location.href = url;
+	return () => setTimeout(() => window.location.href = url, 250);
 };
 
 function stop_start(o) {
