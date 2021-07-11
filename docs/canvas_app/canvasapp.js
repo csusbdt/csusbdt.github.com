@@ -4,7 +4,55 @@ const log = function(...args) {
 	args.forEach(arg => console.log(arg));
 };
 
-const fullscreen = function() {
+function stop_start(o) {
+	o.stop_set.forEach(o => o.stop());
+	o.start_set.forEach(o => {
+		if (typeof(o) === 'function') {
+			o();
+		} else if ('play' in o) {
+			o.play();
+		} else {
+			o.start();
+		}
+	});	
+};
+
+// const next = function(url) {
+// //	return () => setTimeout(() => window.location.href = url, 250);
+// 	return () => setTimeout(() => window.location.assign(url), 250);
+// };
+
+// const back = function(url) {
+// 	return () => setTimeout(() => window.history.back(), 250);
+// };
+			
+// const replace = function(url) {
+// 	return () => setTimeout(() => window.location.href = url, 250);
+// };
+
+// const goto = function(url) {
+// 	return () => setTimeout(() => window.location.href = url, 250);
+// };
+
+// const goto = function(url) {
+// 	return () => setTimeout(() => window.location.href = url, 250);
+// };
+
+
+//#endregion
+
+//#region fullscreen
+
+const fullscreen_enabled = function() {
+	return (
+		'requestFullscreen'       in g_canvas ||
+		'webkitRequestFullscreen' in g_canvas ||
+		'mozRequestFullScreen'    in g_canvas ||
+		'msRequestFullscreen'     in g_canvas 
+	);
+};
+
+const fullscreen_active = function() {
 	if ('fullscreenElement' in document) {
 		return document.fullscreenElement === g_canvas;
 	} else if ('webkitFullscreenElement' in document) {
@@ -18,59 +66,74 @@ const fullscreen = function() {
 	}
 };
 
-const fullscreen_enabled = function() {
-	return (
-		'requestFullscreen'       in g_canvas ||
-		'webkitRequestFullscreen' in g_canvas ||
-		'mozRequestFullScreen'    in g_canvas ||
-		'msRequestFullscreen'     in g_canvas 
-	);
-};
+let on_fullscreen = null;
+let on_windowed = null;
 
-const request_fullscreen = function() {
-	if ('requestFullscreen' in g_canvas) {
-		g_canvas.requestFullscreen();
-	} else if ('webkitRequestFullscreen' in g_canvas) {
-		g_canvas.webkitRequestFullscreen();
-	} else if ('mozRequestFullScreen' in g_canvas) {
-		g_canvas.mozRequestFullScreen();
-	} else if ('msRequestFullscreen' in g_canvas) {
-		g_canvas.msRequestFullscreen();
+const set_on_fullscreen = f => on_fullscreen = f; 
+const set_on_windowed   = f => on_windowed = f; 
+
+function on_fullscreen_change() {
+	if (fullscreen_active()) {
+		if (on_fullscreen !== null) on_fullscreen();
 	} else {
-		throw new Error("fullscreen not supported");
+		if (on_windowed !== null) on_windowed();
 	}
 };
 
-const goto = function(url) {
-	return () => setTimeout(() => window.location.href = url, 250);
+if ('onfullscreenchange' in document) {
+	document.onfullscreenchange = on_fullscreen_change;
+} else if ('webkitfullscreenchange' in document) {
+	document.webkitfullscreenchange = on_fullscreen_change;
+} else if ('mozfullscreenchange' in document) {
+	document.mozfullscreenchange = on_fullscreen_change;
+} else if ('MSFullscreenChange' in document) {
+	document.MSFullscreenChange = on_fullscreen_change;
+}
+
+// safari doesn't return a promise for requestFullscreen
+const request_fullscreen = function() {
+	if ('requestFullscreen' in g_canvas) {
+		return g_canvas.requestFullscreen();
+	} else if ('webkitRequestFullscreen' in g_canvas) {
+		return g_canvas.webkitRequestFullscreen();
+	} else if ('mozRequestFullScreen' in g_canvas) {
+		return g_canvas.mozRequestFullScreen();
+	} else if ('msRequestFullscreen' in g_canvas) {
+		return g_canvas.msRequestFullscreen();
+	} else {
+		throw new Error("request fullscreen not supported");
+	}
 };
 
-function stop_start(o) {
-	o.stop_set.forEach(o => o.stop());
-	o.start_set.forEach(o => {
-		if (typeof(o) === 'function') {
-			o();
-		} else {
-			o.start();
-		}
-	});	
+const exit_fullscreen = function() {
+	if ('exitFullscreen' in document) {
+		return document.exitFullscreen();
+	} else if ('webkitExitFullscreen' in document) {
+		return document.webkitExitFullscreen();
+	} else if ('mozCancelFullScreen' in document) {
+		return document.mozCancelFullScreen();
+	} else if ('msExitFullscreen' in document) {
+		return document.msExitFullscreen();
+	} else {
+		throw new Error("exit fullscreen not supported");
+	}
 };
 
 //#endregion
 
 //#region sound
 
-function c_sound(audio_element) {
-	this.audio_element = audio_element;
-}
+// function c_sound(audio_element) {
+// 	this.audio_element = audio_element;
+// }
 
-c_sound.prototype.start = function() {
-	this.audio_element.play();
-};
+// c_sound.prototype.start = function() {
+// 	this.audio_element.play();
+// };
 
-const sound = function(audio_element) {
-	return new c_sound(audio_element);
-};
+// const sound = function(audio_element) {
+// 	return new c_sound(audio_element);
+// };
 
 //#endregion
 
@@ -241,10 +304,11 @@ c_once.prototype.update = function(dt) {
 };
 
 const once = function(frames, z_index = 10, dx = 0, dy = 0) {
-	if (!Array.isArray(frames)) {
-		frames = [frames];
+	if (Array.isArray(frames)) {
+		return new c_once(frames, z_index, dx, dy);
+	} else {
+		return new c_once([frames], z_index, dx, dy);
 	}
-	return new c_once(frames, z_index, dx, dy);
 };
 
 //#endregion
@@ -268,6 +332,10 @@ c_loop.prototype.start = function() {
 c_loop.prototype.stop = function() {
 	remove_drawable(this);
 	remove_updatable(this);
+};
+
+c_loop.prototype.started = function() {
+	return drawables.includes(this);
 };
 
 c_loop.prototype.draw = function(ctx) {
@@ -295,10 +363,11 @@ c_loop.prototype.update = function(dt) {
 };
 
 const loop = function(frames, z_index = 10, dx = 0, dy = 0) {
-	if (!Array.isArray(frames)) {
-		frames = [frames];
+	if (Array.isArray(frames)) {
+		return new c_loop(frames, z_index, dx, dy);
+	} else {
+		return new c_loop([frames], z_index, dx, dy);
 	}
-	return new c_loop(frames, z_index, dx, dy);
 };
 
 //#endregion
@@ -309,9 +378,14 @@ function c_touch(shapes, dx, dy) {
 	this.shapes = shapes;
 	this.dx = dx;
 	this.dy = dy;
-	this.clear_touchables = true;
+	this.independent = false;
 	this.start_set = [];
 	this.stop_set  = [];
+}
+
+c_touch.prototype.make_independent = function() {
+	this.independent = true;
+	return this;
 }
 
 c_touch.prototype.starts = function(...os) {
@@ -328,11 +402,17 @@ c_touch.prototype.start = function() {
 	add_touchable(this);
 };
 
+c_touch.prototype.stop = function() {
+	remove_touchable(this);
+};
+
 c_touch.prototype.touch = function(x, y) {
 	for (let i = 0; i < this.shapes.length; ++i) {
 		if (this.shapes[i].inside(x - this.dx, y - this.dy)) {
-			if (this.clear_touchables) {
-				clear_touchables();
+			if (this.independent) {
+				remove_touchable(this);
+			} else {
+				touchables = touchables.filter(o => !o.independent);
 			}
 			stop_start(this);
 			return true;
@@ -342,7 +422,11 @@ c_touch.prototype.touch = function(x, y) {
 };
 
 const touch = function(shapes, dx = 0, dy = 0) {
-	return new c_touch(shapes, dx, dy);
+	if (Array.isArray(shapes)) {
+		return new c_touch(shapes, dx, dy);
+	} else {
+		return new c_touch([shapes], dx, dy);
+	}
 };
 
 //#endregion
@@ -392,9 +476,9 @@ const canvas_coords = e => {
 	};
 };
 
-const drawables        = [];
-const updatables       = [];
-const touchables       = [];
+const drawables      = [];
+const updatables     = [];
+let touchables       = [];
 
 let audio_context = null;
 
@@ -473,6 +557,13 @@ const clear_touchables = function() {
 	touchables.length = 0;
 };
 
+const remove_touchable = function(o) {
+	const i = touchables.indexOf(o);
+	if (i !== -1) {
+		touchables.splice(i, 1);
+	}
+};
+
 const remove_drawable = function(o) {
 	const i = drawables.indexOf(o);
 	if (i !== -1) {
@@ -510,13 +601,15 @@ requestAnimationFrame(animation_loop);
 //#region exports
 
 export default {
-	version: '2021-06-29',
+	version: '2021-06-29-a',
 	log: log,
-	fullscreen: fullscreen,
 	fullscreen_enabled: fullscreen_enabled,
+	fullscreen_active: fullscreen_active,
+	set_on_fullscreen: set_on_fullscreen,
+	set_on_windowed: set_on_windowed,
 	request_fullscreen: request_fullscreen,
-	goto: goto,
-	sound: sound,
+	exit_fullscreen: exit_fullscreen,
+	//sound: sound,
 	circle: circle,
 	rect: rect,
 	frame: frame,
